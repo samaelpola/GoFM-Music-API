@@ -1,0 +1,399 @@
+definitions:
+  models.Music:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      picture:
+        type: string
+      title:
+        type: string
+      track:
+        type: string
+      type:
+        type: string
+    type: object
+  utils.HttpResponse:
+    properties:
+      message:
+        type: string
+    type: object
+info:
+  contact:
+    email: me@lan.lan
+    name: Samael POLA
+  description: Api go fm.
+  title: Swagger GO-FM Music  API
+  version: "1.0"
+paths:
+  /musics:
+    get:
+      consumes:
+      - application/json
+      description: get all music
+      operationId: get-all-music
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Music'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: get all music
+      tags:
+      - Musics
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create a new music with the provided details
+      operationId: create-music
+      parameters:
+      - description: Name of the artist
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Title of the music
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Type of music (e.g., GO-ROCK, GO-POP, GO-RAP, GO-SLOW)
+        in: formData
+        name: type
+        required: true
+        type: string
+      - description: Image file for the music
+        in: formData
+        name: picture
+        required: true
+        type: file
+      - description: Audio file for the music
+        in: formData
+        name: audio
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "409":
+          description: Conflict
+          schema:
+            type: string
+        "415":
+          description: Unsupported Media Type
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Create a new music
+      tags:
+      - Musics
+  /musics/{musicID}:
+    delete:
+      consumes:
+      - application/json
+      description: delete music
+      operationId: delete-music
+      parameters:
+      - description: music ID
+        in: path
+        name: musicID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: delete music
+      tags:
+      - Musics
+    get:
+      consumes:
+      - application/json
+      description: get music by ID
+      operationId: get-music-by-id
+      parameters:
+      - description: music ID
+        in: path
+        name: musicID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Music'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: get music by ID
+      tags:
+      - Musics
+    put:
+      consumes:
+      - multipart/form-data
+      description: update a music
+      operationId: update-music
+      parameters:
+      - description: Name of the artist
+        in: formData
+        name: name
+        required: true
+        type: string
+      - description: Title of the music
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Type of music (e.g., GO-ROCK, GO-POP, GO-RAP, GO-SLOW)
+        in: formData
+        name: type
+        required: true
+        type: string
+      - description: Image file for the music
+        in: formData
+        name: picture
+        required: true
+        type: file
+      - description: Audio file for the music
+        in: formData
+        name: audio
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "409":
+          description: Conflict
+          schema:
+            type: string
+        "415":
+          description: Unsupported Media Type
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: update music
+      tags:
+      - Musics
+  /musics/{musicID}/audio:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the audio file of a music.
+      operationId: get-audio-file-of-music
+      parameters:
+      - description: Music ID
+        in: path
+        name: musicID
+        required: true
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get audio file of music
+      tags:
+      - Musics
+  /musics/{musicID}/image:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the image of a music by ID.
+      operationId: get-image-of-music
+      parameters:
+      - description: Music ID
+        in: path
+        name: musicID
+        required: true
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get image of music
+      tags:
+      - Musics
+  /musics/{musicType}:
+    get:
+      consumes:
+      - application/json
+      description: get music by Type
+      operationId: get-music-by-type
+      parameters:
+      - description: music Type
+        in: path
+        name: musicType
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Music'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: get music by Type
+      tags:
+      - Musics
+securityDefinitions:
+  BearerAuth:
+    description: Enter the token with the `Bearer ` prefix, e.g. "Bearer lnez564".
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
