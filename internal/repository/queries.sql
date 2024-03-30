@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS musics;
 
 -- name: create-musics-table
 CREATE TABLE IF NOT EXISTS musics (
-    music_id INTEGER PRIMARY KEY ,
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL ,
     title VARCHAR(255) NOT NULL ,
     type VARCHAR(255) NOT NULL ,
@@ -15,10 +15,10 @@ CREATE TABLE IF NOT EXISTS musics (
 INSERT INTO musics (name, title, type, picture, track) VALUES(?, ?, ?, ?, ?);
 
 -- name: update-picture-track
-UPDATE musics SET picture = ?, track = ? WHERE music_id = ?;
+UPDATE musics SET picture = ?, track = ? WHERE id = ?;
 
 -- name: find-music-by-id
-SELECT * FROM musics WHERE music_id = ?;
+SELECT * FROM musics WHERE id = ?;
 
 -- name: find-music-by-type
 SELECT * FROM musics WHERE type = ?;
@@ -27,10 +27,10 @@ SELECT * FROM musics WHERE type = ?;
 SELECT count(*) FROM musics WHERE name = ? and title = ?;
 
 -- name: delete-music
-DELETE FROM musics WHERE music_id = ?;
+DELETE FROM musics WHERE id = ?;
 
 -- name: update-music
-UPDATE musics SET name = ?, title = ?, type = ?, picture = ?, track = ? WHERE music_id = ?;
+UPDATE musics SET name = ?, title = ?, type = ?, picture = ?, track = ? WHERE id = ?;
 
 -- name: find-all-music
 SELECT * FROM musics;

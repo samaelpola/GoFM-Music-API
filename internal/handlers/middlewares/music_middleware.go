@@ -10,6 +10,12 @@ import (
 	"strconv"
 )
 
+type contextKey string
+
+const (
+	musicKey contextKey = "music"
+)
+
 func CheckMusicExist(gofmDb *repository.DB) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +33,7 @@ func CheckMusicExist(gofmDb *repository.DB) func(h http.Handler) http.Handler {
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), "music", currentMusic)
+			ctx := context.WithValue(r.Context(), musicKey, currentMusic)
 			h.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}

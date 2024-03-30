@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	_ "embed"
 	"github.com/qustavo/dotsql"
 )
 
@@ -10,18 +11,25 @@ type DB struct {
 	dot *dotsql.DotSql
 }
 
-func Initialize(driverName string) (*DB, error) {
-	db, err := sql.Open(driverName, "file:internal/database/gofm.sqlite")
+//go:embed queries.sql
+var queries string
+
+func Initialize(driverName, dsn string) (*DB, error) {
+	db, err := sql.Open(driverName, dsn)
 	if err != nil {
 		return nil, err
 	}
 
-	dot, err := dotsql.LoadFromFile("internal/repository/migration.sql")
+	dot, err := dotsql.LoadFromString(queries)
 	if err != nil {
 		return nil, err
 	}
 
 	_, err = dot.Exec(db, "create-database")
+	if err != nil {
+		return nil, err
+	}
+
 	_, err = dot.Exec(db, "create-musics-table")
 	if err != nil {
 		return nil, err

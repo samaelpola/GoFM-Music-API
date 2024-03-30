@@ -6,16 +6,37 @@ services:
             dockerfile: build/Dockerfile
             context: .
         image: music-api:latest
-        volumes:
-            - ./:/app
         ports:
             - "8083:8083"
         env_file:
             - .env
-        networks:
-            - my_network
         depends_on:
             - minio
+            - mariadb
+        networks:
+            - my_network
+
+    mariadb:
+        image: mariadb:10.6.15
+        environment:
+            MARIADB_DATABASE: ${MARIADB_DATABASE}
+            MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+        networks:
+            - my_network
+
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        depends_on:
+            - mariadb
+        environment:
+            PMA_HOST: mariadb
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        ports:
+            - "8081:80"
+        networks:
+            - my_network
 
     minio:
         image: bitnami/minio:2024.1.18

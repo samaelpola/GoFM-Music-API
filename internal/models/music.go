@@ -90,7 +90,7 @@ func (m Music) GetMusic(goFmDb *repository.DB, musicId int64) (Music, error) {
 		return Music{}, err
 	}
 
-	if err := res.Scan(&m.ID, &m.Name, &m.Title, &m.Type, &m.Picture, &m.Track); err != nil {
+	if err = res.Scan(&m.ID, &m.Name, &m.Title, &m.Type, &m.Picture, &m.Track); err != nil {
 		return Music{}, err
 	}
 
@@ -99,7 +99,7 @@ func (m Music) GetMusic(goFmDb *repository.DB, musicId int64) (Music, error) {
 
 func (m Music) GetMusicByType(goFmDb *repository.DB, typeOfMusic string) ([]Music, error) {
 	res, err := goFmDb.GetDotSql().Query(goFmDb.GetSqlDb(), "find-music-by-type", typeOfMusic)
-	var listUsers []Music
+	var listMusic []Music
 
 	if err != nil {
 		return []Music{}, err
@@ -108,13 +108,14 @@ func (m Music) GetMusicByType(goFmDb *repository.DB, typeOfMusic string) ([]Musi
 	for res.Next() {
 		err = res.Scan(&m.ID, &m.Name, &m.Title, &m.Type, &m.Picture, &m.Track)
 		if err != nil {
-			log.Fatalf("Failed to retrieve row because %s", err)
+			log.Printf("Failed to retrieve row because: %s", err)
+			continue
 		}
 
-		listUsers = append(listUsers, m)
+		listMusic = append(listMusic, m)
 	}
 
-	return listUsers, nil
+	return listMusic, nil
 }
 
 func (m Music) GetMusics(goFmDb *repository.DB) ([]Music, error) {
@@ -128,7 +129,8 @@ func (m Music) GetMusics(goFmDb *repository.DB) ([]Music, error) {
 	for res.Next() {
 		err = res.Scan(&m.ID, &m.Name, &m.Title, &m.Type, &m.Picture, &m.Track)
 		if err != nil {
-			log.Fatalf("Failed to retrieve row because %s", err)
+			log.Printf("Failed to retrieve row because: %s", err)
+			continue
 		}
 
 		listMusic = append(listMusic, m)

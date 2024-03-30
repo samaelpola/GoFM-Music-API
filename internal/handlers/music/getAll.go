@@ -58,7 +58,7 @@ func (g GetAllMusic) Handle(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	if _, err := w.Write(response); err != nil {
+	if _, err = w.Write(response); err != nil {
 		utils.HttpErrorInternalError(
 			w,
 			fmt.Sprintf("Error: %s", err),

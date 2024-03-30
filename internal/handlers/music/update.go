@@ -64,7 +64,7 @@ func (u Update) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if strings.Contains(pictureHeader.Header.Get("Content-Type"), "image/") != true {
+	if !strings.Contains(pictureHeader.Header.Get("Content-Type"), "image/") {
 		http.Error(w, "Invalid image file type", http.StatusUnsupportedMediaType)
 		return
 	}
@@ -101,7 +101,7 @@ func (u Update) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, err := w.Write(response); err != nil {
+	if _, err = w.Write(response); err != nil {
 		utils.HttpErrorInternalError(
 			w,
 			fmt.Sprintf("Error: %s", err),

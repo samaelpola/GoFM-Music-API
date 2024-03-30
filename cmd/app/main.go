@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
-	_ "github.com/mattn/go-sqlite3"
 	midllewares "github.com/samaelpola/GoFM-Music-API/internal/handlers/middlewares"
 	"github.com/samaelpola/GoFM-Music-API/internal/handlers/music"
 	"github.com/samaelpola/GoFM-Music-API/internal/repository"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	_ "github.com/samaelpola/GoFM-Music-API/docs"
@@ -27,14 +28,13 @@ import (
 // @description Enter the token with the `Bearer ` prefix, e.g. "Bearer lnez564".
 // @host localhost:8083
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		log.Fatalf("Error loading .env file: %s", err)
 	}
 
 	router := mux.NewRouter()
 
-	myDb, err := repository.Initialize("sqlite3")
+	myDb, err := repository.Initialize("mysql", os.Getenv("DSN"))
 	if err != nil {
 		log.Fatal(err)
 	}

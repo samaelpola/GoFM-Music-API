@@ -67,7 +67,7 @@ func (g GetByType) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, err := w.Write(response); err != nil {
+	if _, err = w.Write(response); err != nil {
 		utils.HttpErrorInternalError(
 			w,
 			fmt.Sprintf("Error: %s", err),

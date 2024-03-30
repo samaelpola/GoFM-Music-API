@@ -10,8 +10,5 @@ up:
 build:
 	docker compose build
 
-exec:
-	docker compose run app sh
-
 swag:
 	swag init -g cmd/app/main.go

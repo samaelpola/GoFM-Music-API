@@ -14,11 +14,16 @@ make
 ```
 
 ### after launch app run
+## run the command below to generate the swagger doc
+```
+make swag
+```
 
 Open http://localhost:8083/swagger/index.html with your browser to have access to the swagger doc.
 
 link useful:
 minio -> http://localhost:9001
+phpMyAdmin -> http://localhost:8081
 
 #
 
@@ -40,12 +45,6 @@ make up
 
 ```
 make down
-```
-
-### Executing command inside the container
-
-```
-make exec
 ```
 
 ### Doc swagger
