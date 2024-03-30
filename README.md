@@ -13,8 +13,8 @@ To run this application, you must have docker installed on your machine
 make
 ```
 
-### after launch app run
-#### run the command below to generate the swagger doc
+### After launch app run
+#### Run the command below to generate the swagger doc
 ```
 make swag
 ```
