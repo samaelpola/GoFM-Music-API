@@ -14,7 +14,7 @@ make
 ```
 
 ### after launch app run
-## run the command below to generate the swagger doc
+#### run the command below to generate the swagger doc
 ```
 make swag
 ```
