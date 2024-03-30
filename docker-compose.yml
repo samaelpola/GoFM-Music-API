@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+    api:
+        build:
+            dockerfile: build/Dockerfile
+            context: .
+        image: music-api:latest
+        ports:
+            - "8083:8083"
+        env_file:
+            - .env
+        depends_on:
+            - minio
+            - mariadb
+        networks:
+            - my_network
+
+    mariadb:
+        image: mariadb:10.6.15
+        environment:
+            MARIADB_DATABASE: ${MARIADB_DATABASE}
+            MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+        networks:
+            - my_network
+
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        depends_on:
+            - mariadb
+        environment:
+            PMA_HOST: mariadb
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        ports:
+            - "8081:80"
+        networks:
+            - my_network
+
+    minio:
+        image: bitnami/minio:2024.1.18
+        ports:
+            - "9000:9000"
+            - "9001:9001"
+        environment:
+            MINIO_ROOT_USER: ${ACCESS_ID}
+            MINIO_ROOT_PASSWORD: ${SECRET_KEY}
+            MINIO_DEFAULT_BUCKETS: ${BUCKET_NAME}
+        networks:
+            - my_network
+
+networks:
+    my_network:
+        name: go-fm-network
+        driver: bridge
