@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	midllewares "github.com/samaelpola/GoFM-Music-API/internal/handlers/middlewares"
 	"github.com/samaelpola/GoFM-Music-API/internal/models"
 	"github.com/samaelpola/GoFM-Music-API/internal/repository"
 	"github.com/samaelpola/GoFM-Music-API/internal/service"
@@ -38,7 +39,7 @@ func NewDelete(musicDB *repository.DB) *Delete {
 // @Router /musics/{musicID} [delete]
 // @Tags Musics
 func (d Delete) Handle(w http.ResponseWriter, r *http.Request) {
-	music := r.Context().Value("music").(models.Music)
+	music := r.Context().Value(midllewares.MusicKey).(models.Music)
 	if music.Picture != "" {
 		errDeleteFile := service.DeleteFile(music.Picture)
 		if errDeleteFile != nil && !errors.Is(service.FileNotFound, errDeleteFile) {

@@ -13,7 +13,7 @@ import (
 type contextKey string
 
 const (
-	musicKey contextKey = "music"
+	MusicKey contextKey = "music"
 )
 
 func CheckMusicExist(gofmDb *repository.DB) func(h http.Handler) http.Handler {
@@ -33,7 +33,7 @@ func CheckMusicExist(gofmDb *repository.DB) func(h http.Handler) http.Handler {
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), musicKey, currentMusic)
+			ctx := context.WithValue(r.Context(), MusicKey, currentMusic)
 			h.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
