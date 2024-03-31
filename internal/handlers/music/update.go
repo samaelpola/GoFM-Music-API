@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	midllewares "github.com/samaelpola/GoFM-Music-API/internal/handlers/middlewares"
 	"github.com/samaelpola/GoFM-Music-API/internal/models"
 	"github.com/samaelpola/GoFM-Music-API/internal/repository"
 	"github.com/samaelpola/GoFM-Music-API/internal/utils"
@@ -43,7 +44,7 @@ func NewUpdate(musicDB *repository.DB) *Update {
 // @Router /musics/{musicID} [put]
 // @Tags Musics
 func (u Update) Handle(w http.ResponseWriter, r *http.Request) {
-	music := r.Context().Value("music").(models.Music)
+	music := r.Context().Value(midllewares.MusicKey).(models.Music)
 	musicData := utils.ParseFormMusic(r)
 
 	_, audioHeader, err := r.FormFile("audio")

@@ -3,6 +3,7 @@ package music
 import (
 	"errors"
 	"fmt"
+	midllewares "github.com/samaelpola/GoFM-Music-API/internal/handlers/middlewares"
 	"github.com/samaelpola/GoFM-Music-API/internal/models"
 	"github.com/samaelpola/GoFM-Music-API/internal/service"
 	"github.com/samaelpola/GoFM-Music-API/internal/utils"
@@ -29,7 +30,7 @@ import (
 // @Router /musics/{musicID}/audio [get]
 // @Tags Musics
 func GetAudioFileHandle(w http.ResponseWriter, r *http.Request) {
-	music := r.Context().Value("music").(models.Music)
+	music := r.Context().Value(midllewares.MusicKey).(models.Music)
 	if music.Track == "" {
 		utils.HttpError(
 			w,

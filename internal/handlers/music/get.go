@@ -3,6 +3,7 @@ package music
 import (
 	"encoding/json"
 	"fmt"
+	midllewares "github.com/samaelpola/GoFM-Music-API/internal/handlers/middlewares"
 	"github.com/samaelpola/GoFM-Music-API/internal/models"
 	"github.com/samaelpola/GoFM-Music-API/internal/utils"
 	"net/http"
@@ -27,7 +28,7 @@ import (
 func GetMusicHandle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	music := r.Context().Value("music").(models.Music)
+	music := r.Context().Value(midllewares.MusicKey).(models.Music)
 
 	response, err := json.Marshal(music)
 	if err != nil {
