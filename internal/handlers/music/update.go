@@ -71,23 +71,21 @@ func (u Update) Handle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := music.Update(u.gofmDb, musicData); err != nil {
-		if err != nil {
-			if errors.Is(err, models.ErrMusicAlreadyExist) {
-				http.Error(
-					w,
-					fmt.Sprintf("music with name '%s' and title '%s' already exists", musicData.Name, musicData.Title),
-					http.StatusConflict,
-				)
-				return
-			}
-
-			utils.HttpErrorInternalError(
+		if errors.Is(err, models.ErrMusicAlreadyExist) {
+			http.Error(
 				w,
-				fmt.Sprintf("Error: %s", err),
-				http.StatusInternalServerError,
+				fmt.Sprintf("music with name '%s' and title '%s' already exists", musicData.Name, musicData.Title),
+				http.StatusConflict,
 			)
 			return
 		}
+
+		utils.HttpErrorInternalError(
+			w,
+			fmt.Sprintf("Error: %s", err),
+			http.StatusInternalServerError,
+		)
+		return
 	}
 
 	w.WriteHeader(http.StatusOK)
