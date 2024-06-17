@@ -1,6 +1,6 @@
 # GoFM Music API
 
-Creating a rest api in golang with mux, sqlite to stock music data and s3 to store image and file audio of music.
+Creating a rest api in golang with mux, mariadb to stock music data and s3 to store image and file audio of music.
 
 To run this application, you must have docker installed on your machine
 #
